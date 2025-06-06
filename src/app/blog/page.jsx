@@ -11,11 +11,16 @@ const getPosts = async () => {
     });
     
     if (!res.ok) {
+      const errorBody = await res.text(); 
+      console.error(`API Error Response (${res.status}):`, errorBody); 
       throw new Error(`Failed to fetch posts: ${res.status}`);
     }
 
     const data = await res.json();
-    return Array.isArray(data) ? data : [];
+    console.log("Fetched data:", data);
+    const result = Array.isArray(data) ? data : [];
+    console.log("Returned result:", result); 
+    return result;
   } catch (err) {
     console.error('Error fetching posts:', err);
     return [];
