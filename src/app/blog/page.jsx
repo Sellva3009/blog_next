@@ -7,7 +7,7 @@ const getPosts = async () => {
   try {
     const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
     const res = await fetch(`${baseUrl}/api/posts`, {
-      cache: 'no-store',
+      revalidate: 60
     });
     
     if (!res.ok) {
