@@ -5,8 +5,8 @@ import Link from 'next/link';
 
 const getPosts = async () => {
   try {
-    // Fetch from the internal API route using a relative path
-    const res = await fetch(`/api/posts`, {
+    const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+    const res = await fetch(`${baseUrl}/api/posts`, {
       revalidate: 60
     });
     
