@@ -5,21 +5,23 @@ import Link from 'next/link';
 
 const getPosts = async () => {
   try {
-    const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/posts`, {
+    // Fetch from the internal API route using a relative path.
+    // Next.js should handle this correctly in Server Components.
+    const res = await fetch(`/api/posts`, {
       revalidate: 60
     });
     
     if (!res.ok) {
       const errorBody = await res.text(); 
       console.error(`API Error Response (${res.status}):`, errorBody); 
-      throw new Error(`Failed to fetch posts: ${res.status}`);
+      // Include response body in the error message for debugging
+      throw new Error(`Failed to fetch posts: ${res.status} - ${errorBody}`);
     }
 
     const data = await res.json();
     console.log("Fetched data:", data);
     const result = Array.isArray(data) ? data : [];
-    console.log("Returned result:", result); 
+    console.log("Returned result:", result);
     return result;
   } catch (err) {
     console.error('Error fetching posts:', err);
